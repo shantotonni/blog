@@ -41,29 +41,23 @@
 
 <body>
 
-<!-- ########## START: LEFT PANEL ########## -->
-<div class="br-logo"><a href=""><span>[</span>bracket <i>plus</i><span>]</span></a></div>
+<div class="br-logo">
+    <a href=""><span>[</span>Blog<span>]</span></a>
+</div>
 
     @include('admin.layouts.partial.left_sidebar')
-
 
     @include('admin.layouts.partial.header')
 
 
-{{--    @include('admin.layouts.partial.right_sidebar')--}}
-
-
-<!-- ########## START: MAIN PANEL ########## -->
-
 <div class="br-mainpanel">
 
-        @yield('content')
+     @yield('content')
 
-    @include('admin.layouts.partial.footer')
+     @include('admin.layouts.partial.footer')
 
 </div><!-- br-mainpanel -->
 
-<!-- ########## END: MAIN PANEL ########## -->
 
 <script src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/lib/jquery-ui/ui/widgets/datepicker.js') }}"></script>
