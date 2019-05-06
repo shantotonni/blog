@@ -19,9 +19,16 @@
 {{--        </li><!-- br-menu-item -->--}}
 
         <li class="br-menu-item">
-            <a href="" class="br-menu-link">
+            <a href="{{ route('category.index') }}" class="br-menu-link">
                 <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
                 <span class="menu-item-label">Category</span>
+            </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+
+        <li class="br-menu-item">
+            <a href="{{ route('tag.index') }}" class="br-menu-link">
+                <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+                <span class="menu-item-label">Tag</span>
             </a><!-- br-menu-link -->
         </li><!-- br-menu-item -->
 

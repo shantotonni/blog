@@ -1,5 +1,9 @@
 @extends('admin.layouts.master')
 
+@section('title')
+    Home
+    @endsection
+
 @section('content')
     <div class="br-pagetitle">
         <i class="icon ion-ios-home-outline"></i>

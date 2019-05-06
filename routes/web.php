@@ -26,6 +26,12 @@ Route::group(['prefix'=>'admin'],function (){
 
     Route::get('/home', 'AdminController@index')->name('admin.home');
 
+    Route::resource('/category', 'CategoryController');
+    Route::get('/category/delete/{id}', 'CategoryController@delete')->name('category.delete');
+
+    Route::resource('/tag', 'TagController');
+    Route::get('/tag/delete/{id}', 'TagController@delete')->name('tag.delete');
+
 });
 
 

@@ -16,7 +16,6 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('category_id')->nullable();
-            $table->unsignedInteger('tag_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->string('title')->nullable();
             $table->text('body')->nullable();
@@ -26,17 +25,13 @@ class CreatePostsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('comments', function($table) {
+        Schema::table('posts', function($table) {
             //if 'categories'  table  exists
             if(Schema::hasTable('categories'))
             {
                 $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');;
             }
-            //if 'tags'  table  exists
-            if(Schema::hasTable('tags'))
-            {
-                $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');;
-            }
+
             //if 'users'  table  exists
             if(Schema::hasTable('users'))
             {

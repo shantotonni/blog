@@ -27,7 +27,7 @@
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>Bracket Plus Responsive Bootstrap 4 Admin Template</title>
+    <title>@yield('title')</title>
 
     <!-- vendor css -->
     <link href="{{ asset('assets/lib/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -35,6 +35,7 @@
     <link href="{{ asset('assets/lib/rickshaw/rickshaw.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/lib/select2/css/select2.min.css') }}" rel="stylesheet">
 
+    @stack('css')
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bracket.css') }}">
 </head>
@@ -109,5 +110,7 @@
         }
     });
 </script>
+
+@stack('js')
 </body>
 </html>
