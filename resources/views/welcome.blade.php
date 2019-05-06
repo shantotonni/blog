@@ -1,87 +1,56 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+@extends('frontend.app')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+@section('content')
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+    <!-- content-section-starts-here -->
+    <div class="main-body">
+        <div class="container wrap">
+            <div class="col-md-12 content-left">
+                <div class="articles">
+                    <header>
+                        <h3 class="title-head">Latest Stories</h3>
+                    </header>
 
-            .full-height {
-                height: 100vh;
-            }
+                    @foreach($posts as $value)
+                        <div class="article row">
+                            <div class="article-left col-sm-5">
+                                <a href=""><img class="img-full" src="{{ asset('article/'.$value->image) }}"></a>
+                            </div>
+                            <div class="article-right col-sm-7">
+                                <div class="article-title">
+                                    <p>
+                                        <a class="span_link" href="" style="padding: 8px 15px;background-color: #63d3a1;color: #404040;font-weight: bold">{{ isset($value->category->name)?$value->category->name:'' }}
+                                        </a>
+                                    </p>
+                                    <a class="title" href=""> {{ ucfirst($value->title ) }}</a>
+                                </div>
+                                <div class="article-text">
+                                    <p>{!! substr($value->description,0,250) !!}.....</p>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+                                    <p>
+                                        <a href="" class="pull-left" style="text-decoration: none;color: red">{{ isset($value->user->first_name)?$value->user->first_name:'' }}</a>
+                                        <span class="span_link pull-right">{{ $value->created_at->diffForHumans() }} </span>
+                                    </p>
 
-            .position-ref {
-                position: relative;
-            }
+                                </div>
+                            </div>
+                            {{--<div class="clearfix"></div>--}}
+                        </div>
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+                    @endforeach
 
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ route('home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
                 </div>
-            @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Coming Soon..........
-                </div>
             </div>
+            <div class="clearfix"></div>
         </div>
-    </body>
-</html>
+    </div>
+    <!-- content-section-ends-here -->
+
+@endsection
+
+
+
+
+

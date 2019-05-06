@@ -1,12 +1,15 @@
-@extends('layouts.app')
+@extends('frontend.app')
 
 @section('content')
+    <br>
+    <br>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-8 col-md-offset-2">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
+                <div class="card-header" style="background-color: #2ab673;color: white;padding: 15px">{{ __('Register') }}</div>
+                <br>
+                <br>
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
                         @csrf
@@ -62,7 +65,7 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
+                            <div class="col-md-6" style="margin-left: 250px">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>

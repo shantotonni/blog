@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Front Route
+
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
@@ -37,8 +37,18 @@ Route::group(['prefix'=>'admin'],function (){
 
 Route::group(['prefix'=>'user'],function (){
 
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index');
+    Route::get('/post', 'UserController@index')->name('user.post');
+    Route::get('/create/post', 'UserController@create')->name('user.create.post');
+    Route::post('/store/post', 'UserController@store')->name('user.store.post');
+    Route::get('/edit/post', 'UserController@edit')->name('user.edit.post');
+    Route::get('/update/post', 'UserController@update')->name('user.update.post');
+    Route::get('/delete/post', 'UserController@delete')->name('user.delete.post');
 
 });
+
+
+
+
 
 
