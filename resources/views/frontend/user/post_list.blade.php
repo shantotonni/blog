@@ -23,28 +23,32 @@
                             <tr style="background-color: #3fa079">
                                 <td>Title</td>
                                 <td>Category</td>
-                                <td>Sub Category</td>
-                                <td>Article Create Date</td>
+                                <td>Tag</td>
+                                <td>Post Create Date</td>
                                 <td>Status</td>
                                 <td>Action</td>
 
                             </tr>
-                            @foreach($posts as $value)
+                            @foreach($posts as $post)
                                 <tr>
-                                    <td>{{ $value->title }}</td>
-                                    <td>{{ isset($value->category->name)?$value->category->name:'' }}</td>
-                                    <td>{{ isset($value->subcategory->name)?$value->subcategory->name:'' }}</td>
-                                    <td>{{ $value->created_at }}</td>
+                                    <td>{{ $post->title }}</td>
+                                    <td>{{ isset($post->category->name)?$post->category->name:'' }}</td>
                                     <td>
-                                        @if($value->status=='active')
+                                        @foreach($post->tags as $tag)
+                                            {{ $tag->name }},
+                                            @endforeach
+                                    </td>
+                                    <td>{{ $post->created_at->diffForHumans() }}</td>
+                                    <td>
+                                        @if($post->status==1)
                                             <span style="color: #3fa079">Published</span>
                                         @else
                                             <span style="color: red">Pending</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('user.edit.post',$value->id) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
-                                        <a href="{{ route('user.delete.post',$value->id) }}" onclick="return confirm('Are you sure you want to delete this Article?');" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <a href="{{ route('user.edit.post',$post->id) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('user.delete.post',$post->id) }}" onclick="return confirm('Are you sure you want to delete this Article?');" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

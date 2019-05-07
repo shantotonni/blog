@@ -14,6 +14,9 @@
 //Front Route
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('post/{slug}', 'HomeController@postDetails')->name('post.details');
+Route::get('tag/{slug}', 'HomeController@tagPost')->name('tag.post');
+Route::get('category/{id}', 'HomeController@categoryPost')->name('category.post');
 
 Auth::routes();
 
@@ -41,14 +44,13 @@ Route::group(['prefix'=>'user'],function (){
     Route::get('/post', 'UserController@index')->name('user.post');
     Route::get('/create/post', 'UserController@create')->name('user.create.post');
     Route::post('/store/post', 'UserController@store')->name('user.store.post');
-    Route::get('/edit/post', 'UserController@edit')->name('user.edit.post');
-    Route::get('/update/post', 'UserController@update')->name('user.update.post');
-    Route::get('/delete/post', 'UserController@delete')->name('user.delete.post');
+    Route::get('/edit/post/{id}', 'UserController@edit')->name('user.edit.post');
+    Route::post('/update/post/{id}', 'UserController@update')->name('user.update.post');
+    Route::get('/delete/post/{id}', 'UserController@delete')->name('user.delete.post');
+
 
 });
 
-
-
-
+Route::post('/post/comment', 'UserController@postComment')->name('post.comment');
 
 

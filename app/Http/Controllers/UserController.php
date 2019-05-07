@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Comment;
 use App\Post;
 use App\Tag;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class UserController extends Controller
     }
 
     public function index(){
-        $posts =Post::all();
+        $posts =Post::where('user_id',Auth::user()->id)->with('category','user')->get();
         return view('frontend.user.post_list',compact('posts'));
     }
 
@@ -49,14 +50,14 @@ class UserController extends Controller
 
             //check category dir is exist
 
-            if (Storage::disk('public')->exists('category')){
+            if (Storage::disk('public')->exists('post')){
 
-                Storage::disk('public')->makeDirectory('category');
+                Storage::disk('public')->makeDirectory('post');
             }
 
             //image resize
             $category_image_resize = Image::make($image)->resize(950,500)->save($imagename,90);
-            Storage::disk('public')->put('category/'.$imagename,$category_image_resize);
+            Storage::disk('public')->put('post/'.$imagename,$category_image_resize);
 
         }else{
             $imagename = 'default.png';
@@ -76,4 +77,92 @@ class UserController extends Controller
             return redirect()->route('user.post')->with('msg','Post Created Successfully');
         }
     }
+
+    public function edit($id){
+
+        $categories = Category::all();
+        $tags = Tag::all();
+        $post = Post::find($id);
+        return view('frontend.user.post_edit',compact('post','categories','tags'));
+
+    }
+
+    public function update(Request $request,$id){
+
+        $this->validate($request,[
+            'title' =>'required|min:5',
+            'category_id' =>'required|numeric',
+            'tag_id' =>'required',
+            'body' =>'required|min:5',
+            'image_caption' =>'required|min:5',
+        ]);
+
+        $post = Post::find($id);
+
+        $slug =str_slug($request->title);
+        $image = $request->file('image');
+
+        if (isset($image)){
+            //make unique name for image
+            $currentdate = Carbon::now()->toDateString();
+            $imagename = $slug.'-'.$currentdate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //check category dir is exist
+            if (Storage::disk('public')->exists('post')){
+
+                Storage::disk('public')->makeDirectory('post');
+            }
+
+            //old image delete
+            if (Storage::disk('public')->exists('post/'.$post->image)){
+
+                Storage::disk('public')->delete('post/'.$post->image);
+            }
+
+            //image resize
+            $category_image_resize = Image::make($image)->resize(950,500)->save($imagename,90);
+            Storage::disk('public')->put('post/'.$imagename,$category_image_resize);
+
+        }else{
+            $imagename = $post->image;
+        }
+
+        $post->category_id = $request->category_id;
+        $post->user_id = Auth::user()->id;
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->slug = $slug;
+        $post->image = $imagename;
+        $post->image_caption = $request->image_caption;
+        $post->status = 0;
+        if ($post->save()){
+
+            $post->tags()->sync($request->tag_id);
+            return redirect()->route('user.post')->with('msg','Post Updated Successfully');
+        }
+
+    }
+
+    public function delete($id){
+
+        $post = Post::find($id);
+        $post->tags()->detach();
+        $post->delete();
+        return redirect()->route('user.post')->with('msg','Post Deleted Successfully');
+    }
+
+    public function postComment(Request $request){
+
+        $comment = new Comment();
+        $comment->title = $request->title;
+        $comment->body = $request->comment;
+        $comment->post_id = $request->post_id;
+        $comment->user_id = $request->user_id;
+        $comment->save();
+
+        return redirect()->route('post.details')->with('msg','Comment Successfully');
+    }
+
+
+
 }

@@ -1,7 +1,7 @@
 @extends('frontend.app')
 
 @section('title')
-    User Create Post
+    User Edit Post
 @endsection
 
 @push('css')
@@ -16,13 +16,13 @@
             <div class="col-md-12 content-left">
                 <div class="articles">
                     <header>
-                        <h3 class="title-head">User Create Post</h3>
+                        <h3 class="title-head">User Edit Post</h3>
                     </header>
                     <br>
                     <a href="{{ route('user.post') }}" class="pull-right btn btn-primary">Back</a>
                     <div class="contact_grid">
                         <div class="col-md-12 contact-top">
-                            <form action="{{ route('user.store.post') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('user.update.post',$post->id) }}" method="post" enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div class="to">
                                     <div class="row">
@@ -30,7 +30,11 @@
                                             <select name="category_id" id="" class="form-control">
                                                 <option value="">Select Category</option>
                                                 @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @if ($post->category_id == $category->id)
+                                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                                        @else
+                                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                             @if ($errors->has('category_id'))
@@ -41,7 +45,13 @@
                                             <select name="tag_id[]" id="" class="form-control select2" data-placeholder="Select Tags" multiple="multiple">
                                                 <option value="">Select Tag</option>
                                                 @foreach($tags as $tag)
-                                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                                    <option value="{{ $tag->id }}"
+                                                        @foreach ($post->tags as $posttag)
+                                                            {{ $posttag->id == $tag->id ? 'selected':'' }}
+                                                        @endforeach
+                                                    >
+                                                        {{ $tag->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             @if ($errors->has('tag_id'))
@@ -51,13 +61,13 @@
                                     </div>
                                 </div>
                                 <div class="to">
-                                    <input type="text" style="width: 48.6%" class="text" placeholder="Please Select Title" name="title">
+                                    <input type="text" style="width: 48.6%" class="text" value="{{ $post->title }}" placeholder="Please Select Title" name="title">
                                     @if ($errors->has('title'))
                                         <div class="error" style="color: red">{{ $errors->first('title') }}</div>
                                     @endif
                                 </div>
 
-                                <textarea name="body" placeholder="Please write Somethings" ></textarea>
+                                <textarea name="body" placeholder="Please write Somethings">{{ $post->body }}</textarea>
                                 @if ($errors->has('body'))
                                     <div class="error" style="color: red">{{ $errors->first('body') }}</div>
                                 @endif
@@ -70,14 +80,14 @@
                                 </div>
                                 <br>
                                 <div class="to">
-                                    <input type="text" style="width: 48.6%" class="text" placeholder="Please Select Image Caption" name="image_caption">
+                                    <input type="text" style="width: 48.6%" class="text" value="{{ $post->image_caption }}" placeholder="Please Select Image Caption" name="image_caption">
                                     @if ($errors->has('image_caption'))
                                         <div class="error" style="color: red">{{ $errors->first('image_caption') }}</div>
                                     @endif
                                 </div>
                                 <br>
                                 <div class="form-submit1">
-                                    <input name="submit" type="submit" id="submit" value="Publish Your Post"><br>
+                                    <input name="submit" type="submit" id="submit" value="Update Your Post"><br>
                                 </div>
                                 <div class="clearfix"> </div>
                             </form>
@@ -89,13 +99,11 @@
     </div>
 
     <script type="text/javascript">
-
         $(document).ready(function() {
             $('.select2').select2();
         });
 
         CKEDITOR.replace( 'body' );
-
     </script>
 
 @endsection

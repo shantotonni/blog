@@ -151,7 +151,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                             <li class="active"><a href="{{ route('home') }}">Home</a></li>
                             @foreach($categories->getCategory() as $value)
-                                <li><a href="">{{ $value->name }}</a></li>
+                                <li><a href="{{ route('category.post',$value->id) }}">{{ $value->name }}</a></li>
                             @endforeach
                         </ul>
                     </div>
@@ -164,16 +164,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 @yield('content')
 
 
-
 <!-- footer-section-starts-here -->
     <div class="footer">
         <div class="footer-top">
             <div class="container wrap ">
                 <div class="row">
                     <div class="col-md-6 col-xs-6 col-sm-4 footer-grid">
-                        <h4 class="footer-head">About Us</h4>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                        <p>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here.</p>
+
                     </div>
                     <div class="col-md-2 col-xs-6 col-sm-2 footer-grid">
                         <h4 class="footer-head">Categories</h4>
