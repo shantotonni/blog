@@ -32,6 +32,21 @@
             </a><!-- br-menu-link -->
         </li><!-- br-menu-item -->
 
+        <li class="br-menu-item">
+            <a href="{{ route('post.index') }}" class="br-menu-link">
+                <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+                <span class="menu-item-label">Post</span>
+            </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+
+        <li class="br-menu-item">
+            <a href="{{ route('admin.user.index') }}" class="br-menu-link">
+                <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+                <span class="menu-item-label">User</span>
+            </a><!-- br-menu-link -->
+        </li><!-- br-menu-item -->
+
+
     </ul><!-- br-sideleft-menu -->
 </div><!-- br-sideleft -->
 <!-- ########## END: LEFT PANEL ########## -->

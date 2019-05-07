@@ -6,6 +6,7 @@ use App\Category;
 use App\Comment;
 use App\Post;
 use App\Tag;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,7 +135,6 @@ class UserController extends Controller
         $post->slug = $slug;
         $post->image = $imagename;
         $post->image_caption = $request->image_caption;
-        $post->status = 0;
         if ($post->save()){
 
             $post->tags()->sync($request->tag_id);
@@ -157,10 +157,76 @@ class UserController extends Controller
         $comment->title = $request->title;
         $comment->body = $request->comment;
         $comment->post_id = $request->post_id;
-        $comment->user_id = $request->user_id;
+        $comment->user_id = Auth::user()->id;
         $comment->save();
 
-        return redirect()->route('post.details')->with('msg','Comment Successfully');
+        return redirect()->back()->with('msg','Comment Successfully');
+    }
+
+    public function userProfileView(){
+
+        $profile = User::where('id',Auth::user()->id)->first();
+        return view('frontend.user.user_profile_view',compact('profile'));
+
+    }
+
+    public function userProfileEdit($id){
+        $profile = User::find($id);
+        return view('frontend.user.edit_profile',compact('profile'));
+    }
+
+    public function userProfileUpdate(Request $request,$id){
+
+        $this->validate($request,[
+            'name' =>'required',
+            'phone' =>'required|min:5',
+            'avatar' =>'required|mimes:jpeg,jpg,png',
+            'email' =>'required|email',
+        ]);
+
+        $user = User::find($id);
+
+        $slug =str_slug($request->name);
+        $image = $request->file('avatar');
+
+        if (isset($image)){
+            //make unique name for image
+            $currentdate = Carbon::now()->toDateString();
+            $imagename = $slug.'-'.$currentdate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //check category dir is exist
+            if (Storage::disk('public')->exists('user')){
+
+                Storage::disk('public')->makeDirectory('user');
+            }
+
+            //old image delete
+            if (Storage::disk('public')->exists('user/'.$user->avatar)){
+
+                Storage::disk('public')->delete('user/'.$user->avatar);
+            }
+
+            //image resize
+            $user_image_resize = Image::make($image)->resize(150,150)->save($imagename,90);
+            Storage::disk('public')->put('user/'.$imagename,$user_image_resize);
+
+        }else{
+            $imagename = $user->avatar;
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->avatar = $imagename;
+        $user->date_of_birth = $request->date_of_birth;
+
+        if ($user->save()){
+
+            return redirect()->route('user.profile.view')->with('msg','User Updated Successfully');
+        }
+
+
     }
 
 

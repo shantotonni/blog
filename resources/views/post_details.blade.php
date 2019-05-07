@@ -65,29 +65,34 @@
 
                             <div class="response">
                                 <h4 style="border-bottom: 1px solid #35b578;margin: 0;color: #35b578">Responses</h4>
-
-                                @foreach($post->comments as $comment )
-                                    <div class="media response-info">
-                                        <div class="media-left response-text-left">
-                                            <a href="#">
-                                                <img class="media-object" src="{{ asset('user/'.$comment->user->image) }}" alt="No Image"/>
-                                            </a>
-                                            <h5><a href="#">{{ ucfirst(isset($comment->user->name) ? $comment->user->name:'') }}</a></h5>
+                                <br>
+                                @if(\Illuminate\Support\Facades\Auth::check())
+                                    @foreach($post->comments as $comment )
+                                        <div class="media response-info">
+                                            <div class="media-left response-text-left">
+                                                <a href="#">
+                                                    <img class="media-object" src="{{ asset('user/'.$comment->user->avatar) }}" alt="No Image"/>
+                                                </a>
+                                                <h5><a href="#">{{ ucfirst(isset($comment->user->name) ? $comment->user->name:'') }}</a></h5>
+                                            </div>
+                                            <div class="media-body response-text-right">
+                                                <p>{{ $comment->body }}</p>
+                                                <ul>
+                                                    <li>{{ $comment->created_at->diffForHumans() }}</li>
+                                                </ul>
+                                            </div>
+                                            <div class="clearfix"> </div>
                                         </div>
-                                        <div class="media-body response-text-right">
-                                            <p>{{ $comment->comment }}</p>
-                                            <ul>
-                                                <li>{{ $comment->created_at->diffForHumans() }}</li>
-                                            </ul>
-                                        </div>
-                                        <div class="clearfix"> </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
+                                @else
+                                    <h4>Please <a href="{{ route('login') }}">Login</a></h4>
+                                @endif
 
                             </div>
                             <br>
                             <div class="coment-form" style="margin: 0px">
-                                <h4>Leave your comment</h4>
+                                <h4 style="border-bottom: 1px solid #35b578;margin: 0;color: #35b578">Leave your comment</h4>
+                                <br>
                                 @if(\Illuminate\Support\Facades\Auth::check())
                                     <form action="{{ route('post.comment') }}" method="post">
                                         {{ csrf_field() }}
@@ -97,7 +102,7 @@
                                         <input type="submit" value="Submit Your Comment">
                                     </form>
                                 @else
-                                    <h4>Please <a href="" data-toggle="modal" data-target="#login">Login</a></h4>
+                                    <h4>Please <a href="{{ route('login') }}">Login</a></h4>
                                 @endif
                             </div>
                         </div>

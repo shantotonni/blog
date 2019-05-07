@@ -35,6 +35,19 @@ Route::group(['prefix'=>'admin'],function (){
     Route::resource('/tag', 'TagController');
     Route::get('/tag/delete/{id}', 'TagController@delete')->name('tag.delete');
 
+    //post
+
+    Route::get('/post', 'PostController@index')->name('post.index');
+    Route::get('/post/show/{id}', 'PostController@show')->name('admin.post.show');
+    Route::get('/post/delete/{id}', 'PostController@delete')->name('admin.post.delete');
+
+    //user
+    Route::get('/user', 'AdminUserController@index')->name('admin.user.index');
+    Route::get('/user/create', 'AdminUserController@create')->name('admin.user.create');
+    Route::post('/user/store', 'AdminUserController@store')->name('admin.user.store');
+    Route::get('/user/edit/{id}', 'AdminUserController@edit')->name('admin.user.edit');
+    Route::post('/user/update/{id}', 'AdminUserController@update')->name('admin.user.update');
+    Route::get('/user/delete/{id}', 'AdminUserController@delete')->name('admin.user.delete');
 });
 
 
@@ -47,6 +60,10 @@ Route::group(['prefix'=>'user'],function (){
     Route::get('/edit/post/{id}', 'UserController@edit')->name('user.edit.post');
     Route::post('/update/post/{id}', 'UserController@update')->name('user.update.post');
     Route::get('/delete/post/{id}', 'UserController@delete')->name('user.delete.post');
+
+    Route::get('/user/profile/view', 'UserController@userProfileView')->name('user.profile.view');
+    Route::get('/user/profile/edit/{id}', 'UserController@userProfileEdit')->name('user.profile.edit');
+    Route::post('/user/profile/update/{id}', 'UserController@userProfileUpdate')->name('user.profile.update');
 
 
 });

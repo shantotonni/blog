@@ -59,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <ul class="dropdown-menu login">
 
                             <li>
-                                <a href=""
+                                <a href="{{ route('user.profile.view') }}"
                                    style="color: black;margin-left: 20px;font-size: 14px;font-family: 'Source Sans Pro', sans-serif;">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     Profile
@@ -71,13 +71,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                    style="color: black;margin-left: 20px;font-size: 14px;font-family: 'Source Sans Pro', sans-serif;">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                     My Posts
-                                </a>
-                            </li>
-                            <li>
-                                <a href=""
-                                   style="color: black;margin-left: 20px;font-size: 14px;font-family: 'Source Sans Pro', sans-serif;">
-                                    <i class="fa fa-bookmark" aria-hidden="true"></i>
-                                    Bookmark
                                 </a>
                             </li>
                             <li>
