@@ -40,6 +40,7 @@ Route::group(['prefix'=>'admin'],function (){
     Route::get('/post', 'PostController@index')->name('post.index');
     Route::get('/post/show/{id}', 'PostController@show')->name('admin.post.show');
     Route::get('/post/delete/{id}', 'PostController@delete')->name('admin.post.delete');
+    Route::get('/post/active/{id}', 'PostController@postActive')->name('admin.post.active');
 
     //user
     Route::get('/user', 'AdminUserController@index')->name('admin.user.index');

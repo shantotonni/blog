@@ -30,4 +30,12 @@ class PostController extends Controller
         $post->delete();
         return redirect()->back()->with('msg','Post Deleted Successfully');
     }
+
+    public function postActive($id){
+
+        $post = Post::find($id);
+        $post->status = 1;
+        $post->save();
+        return redirect()->back()->with('msg','Post Activated Successfully');
+    }
 }
